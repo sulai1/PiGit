@@ -1,0 +1,25 @@
+$include /etc/inputrc
+
+# Color files by types
+set colored-stats On
+set visible-stats On
+#ignore case when searching
+set completion-ignore-case On
+set completion-prefix-display-length 3
+set mark-symlinked-directories On
+set show-all-if-ambiguous On
+set show-all-if-unmodified On
+
+## mappings for "page up" and "page down" to step to the beginning/end
+# of the history
+\e[5~: beginning-of-history
+\e[6~: end-of-history
+
+# mappings for up and down arrows search history
+\e[B: history-search-forward
+\e[A: history-search-backward
+
+#vi stuff
+set editing-mode vi
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
