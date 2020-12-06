@@ -1,0 +1,38 @@
+---
+- hosts: all 
+  become: yes
+
+  vars_promt:
+    - name: new_user
+      promt: enter a new username
+      private: no
+
+  tasks:
+
+  - name: set hostname
+    hostname:
+      name: pi2
+
+  - name: Ensure group "{{new_user}}" exists
+    group:
+      name: "{{new_user}}"
+      state: present
+
+  - name: Add the user with a bash shell, appending the group root to the user's groups
+    user:
+      name: "{{new_user}}"
+      shell: /bin/bash
+      group: "{{new_user}}"
+      groups: root
+
+  - name: Add provision user to the sudoers
+    copy:
+      dest: "/etc/sudoers.d/{{new_user}}"
+      content: "{{new_user}}  ALL=(ALL)  NOPASSWD: ALL"
+
+  - name: Deploy SSH Key
+    ansible.posix.authorized_key: 
+      user: "{{new_user}}"
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCk/ADaCThTMmFCMwFV/jaOer2evZZlmo2DUKKCSl7s+t5uyuEQIbd1uJ5pZQKUAlkQ9M+YmiCrEqCzGGNVllRqHCqaLutkifLSdyFQv9OZ8vlMtzmXrXL/t+mpF080231it1VQ5jFXu29jplS37t3IdZcC17FldthMwDThdLl2re3gIMgVxdaIHGDAArIoen//7JczadHdLsMCetv+++zZWod23/EgAu6j3nk4gSuL99lCjPSZN5YXqlqpFynkINsANkUmMCpHj8TO02s8iNj0P1aFghn8PtnRsZw5iVuQHG3ISxSjhjVAVJRVsNYE5RVsQ3GdfkgASvzUylaWUxiV1yM4YvhO1LjKKI5aNwKJdvjpdCyPUcckrnbsAdbdt2yBQjX/JALcfVhbdCMRYqGiwUvE8fvWA69Mf4y9iAa9xPRoyYVpfHgpH3CfCVfSld0+iYi+7bXi6ylQDndO5jvWUGvamL7YCvn75MBnq4IDWSn2Daj6ny2dArUgOZxiFls= sulai@DESKTOP-I2L75NN"
+      state: present
+

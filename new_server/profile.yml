@@ -1,0 +1,27 @@
+---
+- hosts: devl 
+  become: yes
+
+  tasks:
+  - name: Ensure VIM is installed
+    yum: name=vim state=present
+
+  - name: Configure Vim
+    copy: 
+      src: ~/ansible/etc/vim
+      dest: /etc
+      mode: 0644
+
+  - name: Configure Profile
+    copy: 
+      src: ~/ansible/etc/bash.bashrc
+      dest: /etc
+      mode: 0644
+   
+  - name: Configure Input
+    copy: 
+      src: ~/ansible/etc/inputrc
+      dest: /etc
+      mode: 0644
+   
+
