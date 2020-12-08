@@ -79,7 +79,7 @@
 
   - name: Configure WIFI
     copy:
-      src: ~/ansible/etc/netplan/50-cloud-init.yaml
+      src: ../etc/netplan/50-cloud-init.yaml
       dest: /etc/netplan/50-cloud-init.yaml
       owner: root
       group: root

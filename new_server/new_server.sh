@@ -21,18 +21,11 @@ while true; do
 	esac
 done
 
+dir=$(dirname $(readlink -f "$0"))
+echo $dir
 echo USER=$USER
 echo REMOTE=$REMOTE
 echo DEBUG=$DEBUG
 
-echo path $ANSIBLE_PATH
-
-
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-cp "$dir/inventory" "$dir/inventory.tmp"
-echo "$REMOTE" >> "$dir/inventory.tmp"
-
-ansible-playbook -i "$dir/inventory.tmp" -u "$USER" -K "$dir/new_server.yml"
-
-rm "$dir/inventory.tmp"
+ansible-playbook --extra-vars "variable_host=$REMOTE" -u "$USER" -K "$dir/new_server.yml"
 
