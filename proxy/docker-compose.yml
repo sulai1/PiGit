@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  reverse:
+    container_name: reverse
+    hostname: reverse
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./resources:/etc/nginx
+      - ./resources/www:/www
+  web:
+    image: 'gitlab/gitlab-ee:latest'
+    hostname: gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+         external_url 'http://127.0.0.1:8001'
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '8001:8001'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
