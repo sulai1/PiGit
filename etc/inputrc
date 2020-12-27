@@ -71,4 +71,3 @@ set completion-ignore-case On
 set completion-prefix-display-length 3
 
 $endif
-s
